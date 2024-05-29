@@ -1,0 +1,113 @@
+<div class="w-full bg-white border border-gray-200 rounded-lg shadow">
+    <ul class="hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg sm:flex rtl:divide-x-reverse"
+        role="tablist">
+        <li class="w-full">
+            <button id="cmd-tab" type="button" role="tab" aria-controls="cmd" [attr.aria-selected]="activeTab === 'cmd'"
+                (click)="setActiveTab('cmd')"
+                class="inline-block w-full p-4 rounded-ss-lg bg-gray-50 hover:bg-gray-100 focus:outline-none"
+                [ngClass]="{'bg-blue-500 text-white': activeTab === 'cmd', 'bg-gray-50 text-gray-500': activeTab !== 'cmd'}">
+                Commandes
+            </button>
+        </li>
+        <li class="w-full">
+            <button id="paiement-tab" type="button" role="tab" aria-controls="paiement"
+                [attr.aria-selected]="activeTab === 'paiement'" [disabled]="!isPaiementEnabled"
+                class="inline-block w-full p-4 bg-gray-50 hover:bg-gray-100 focus:outline-none"
+                [ngClass]="{'bg-blue-500 text-white': activeTab === 'paiement', 'bg-gray-50 text-gray-500': activeTab !== 'paiement', 'opacity-50 cursor-not-allowed': !isPaiementEnabled}">
+                Paiement
+            </button>
+        </li>
+    </ul>
+    <div id="fullWidivhTabContent" class="">
+        <div *ngIf="activeTab === 'cmd'" id="cmd" role="tabpanel" aria-labelledby="cmd-tab"
+            class="p-4 bg-white rounded-lg md:p-8">
+            <div class=" justify-center items-center">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm text-left rtl:text-right text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Produit</th>
+                                <th scope="col" class="px-6 py-3">Quantité</th>
+                                <th scope="col" class="px-6 py-3">Categorie</th>
+                                <th scope="col" class="px-6 py-3">Prix</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white " *ngFor="let cart of carts ; let i = index">
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                    <img [src]="cart.food.picture" alt="Product Image" class="w-20 h-20 object-cover">
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-6 h-6 text-gray-800 cursor-pointer" (click)="increment(i)"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 12h14m-7 7V5" />
+                                        </svg>
+                                        <span>{{ cart.quantity }}</span>
+                                        <svg class="w-6 h-6 text-gray-800 cursor-pointer" (click)="decrement(i)"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M5 12h14" />
+                                        </svg>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">{{ cart.food.category }}</td>
+                                <td class="px-6 py-4">{{ cart.food.price * cart.quantity }} $</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button type="button"
+                    class="text-gray-900 uppercase bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 ">
+                    prix total : {{totalPrice}} $
+                </button>
+                <button type="button" (click)="confirm()"
+                    class="focus:outline-none text-white uppercase bg-blue-600 hover:bg-blue-400 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">Confirmer</button>
+            </div>
+        </div>
+        <div *ngIf="activeTab === 'paiement'" id="paiement" role="tabpanel" aria-labelledby="paiement-tab"
+            class="p-4 bg-white rounded-lg md:p-8">
+            <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900">We invest in the world’s potential
+            </h2>
+            <ul role="list" class="space-y-4 text-gray-500">
+                <li class="flex space-x-2 rtl:space-x-reverse items-center">
+                    <svg class="flex-shrink-0 w-3.5 h-3.5 text-blue-600" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    <span class="leading-tight">Dynamic reports and dashboards</span>
+                </li>
+                <li class="flex space-x-2 rtl:space-x-reverse items-center">
+                    <svg class="flex-shrink-0 w-3.5 h-3.5 text-blue-600" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    <span class="leading-tight">Templates for everyone</span>
+                </li>
+                <li class="flex space-x-2 rtl:space-x-reverse items-center">
+                    <svg class="flex-shrink-0 w-3.5 h-3.5 text-blue-600" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    <span class="leading-tight">Development workflow</span>
+                </li>
+                <li class="flex space-x-2 rtl:space-x-reverse items-center">
+                    <svg class="flex-shrink-0 w-3.5 h-3.5 text-blue-600" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                    </svg>
+                    <span class="leading-tight">Limitless business automation</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
